@@ -3,7 +3,7 @@
 - **พลังการประมวลผล** -> ในปัจจุบัน ฮาร์ดแวร์ได้พัฒนาไปไกลมาก มีพลังการคำนวนที่มากขึ้น ส่งผลให้เพิ่มโอกาสที่จะโจมตีสำเร็จมากขึ้น
 - **การรักษาความปลอดภัย** -> อาจมีการเก็บรหัสผ่านและชื่อผู้ใช้โดยการ hash และหลีกเลี่ยงที่จะเก็บแบบ plain text รวมไปถึงการทำให้การโจมตีแบบนี้ทำได้ช้าลง ส่งผลผลให้ต้องใช้เวลานานมากขึ้นในการโจมตี
 
-![](picture/brute_how_work.png)
+![](picture_CPTS/brute_how_work.png)
 ## Default Password 
 [Top-Username-list.txt](https://github.com/danielmiessler/SecLists/blob/master/Usernames/top-usernames-shortlist.txt)
 
