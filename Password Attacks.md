@@ -232,3 +232,6 @@ SMB         10.129.202.137  445    FRONTDESK01      frontdesk:Password123
 ```
 
 ## Attacking LSASS
+dump file `lsass` from task manager
+![](picture_CPTS/lsass.webp)
+
