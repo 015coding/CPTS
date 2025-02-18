@@ -235,3 +235,11 @@ SMB         10.129.202.137  445    FRONTDESK01      frontdesk:Password123
 dump file `lsass` from task manager
 ![](picture_CPTS/lsass.webp)
 
+use `pypykatz` to analyze file
+```shell
+$ pypykatz lsa minidump lsass.dmp
+```
+## Attacking Active Directory & NTDS.dit
+```
+it not
+```
