@@ -141,6 +141,10 @@ $ hydra -L <username_list> -P <password_list> rdp://<ip_address>
 ```shell
 $ xfreerdp /v:<target-IP> /u:<username> /p:<password>
 ```
+if need to share drive:
+```shell
+$ xfreerdp /v:<target-IP> /u:<username> /p:<password> /drive:tools,<path_share_your_device>
+```
 ### SSH
 **SSH** -> Secure Shell
 use hydra to find username and password
